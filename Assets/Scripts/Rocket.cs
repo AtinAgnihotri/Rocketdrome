@@ -32,9 +32,8 @@ public class Rocket : MonoBehaviour
         }
         else
         {
-            //if (thrust > 0)
-            //    thrust = thrust - 2f;
-            thrust = 0f;
+            if (thrust != 0f)
+                thrust = 0f;
         }
 
         if (Input.GetKey(KeyCode.A))
