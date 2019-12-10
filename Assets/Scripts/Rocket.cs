@@ -6,6 +6,7 @@ using UnityEngine;
 public class Rocket : MonoBehaviour
 {
     private float thrust;
+    private float rotThrust;
     private Rigidbody rocketRB;
     [SerializeField]
     private const float maxThrust = 50f;
@@ -38,11 +39,11 @@ public class Rocket : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A))
         {
-            print("Rotating Left");
+            transform.Rotate(Vector3.forward); 
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            print("Rotating Right");
+            transform.Rotate(-Vector3.forward);
         }
     }
 }
