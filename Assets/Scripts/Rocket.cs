@@ -8,8 +8,10 @@ public class Rocket : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    private float thrust;
-    private float rotThrust;
+    [SerializeField]
+    private float thrust = 1f;
+    [SerializeField]
+    private float rotThrust = 100f;
     private Rigidbody rocketRB;
     private AudioSource rocketAS;
     [SerializeField]
@@ -24,40 +26,58 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ProcessInput();
+        Thrust();
+        Rotate();
     }
 
-    private void ProcessInput()
+    private void Rotate()
     {
         /// <summary>
         /// 
         /// </summary>
 
-        //throw new NotImplementedException();
+        rocketRB.freezeRotation = true; // Rotation w/o affecting Phyics
+        float rotMultiplier = rotThrust * Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(Vector3.forward * rotMultiplier);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(-Vector3.forward * rotMultiplier);
+        }
+
+        rocketRB.freezeRotation = false; // Rotation control back to Phyics
+    }
+
+    private void Thrust()
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+
         if (Input.GetKey(KeyCode.Space))
         {
             if (!rocketAS.isPlaying)
                 rocketAS.Play();
-            if (thrust < maxThrust)
-                thrust = thrust + 2f;
-            rocketRB.AddRelativeForce(new Vector3(0f, thrust, 0f));
-            
+   
+            rocketRB.AddRelativeForce(Vector3.up * thrust);
+
+            // CAN USE LATER IF GOING WITH SCALING THRUST
+            //if (thrust < maxThrust)
+            //    thrust = thrust + 2f;
+            //rocketRB.AddRelativeForce(new Vector3(0f, thrust, 0f));
+
         }
         else
         {
-            if (thrust != 0f)
-                thrust = 0f;
             if (rocketAS.isPlaying)
                 rocketAS.Stop();
-        }
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(Vector3.forward); 
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(-Vector3.forward);
+            // CAN USE LATER IF GOING WITH SCALING THRUST
+            //if (thrust != 0f)
+            //    thrust = 0f;
         }
     }
 }
