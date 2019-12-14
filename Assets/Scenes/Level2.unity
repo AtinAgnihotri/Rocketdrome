@@ -232,7 +232,7 @@ PrefabInstance:
     - target: {fileID: 688451917239216030, guid: 0497f90e6ec81d445864a8f2ced8fe2b,
         type: 3}
       propertyPath: m_Name
-      value: Obstacle (12)
+      value: Obstacle Oscillator
       objectReference: {fileID: 0}
     - target: {fileID: 688451917239216030, guid: 0497f90e6ec81d445864a8f2ced8fe2b,
         type: 3}
@@ -247,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 688451917239216002, guid: 0497f90e6ec81d445864a8f2ced8fe2b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.53
+      value: 4.75
       objectReference: {fileID: 0}
     - target: {fileID: 688451917239216002, guid: 0497f90e6ec81d445864a8f2ced8fe2b,
         type: 3}
@@ -978,6 +978,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0497f90e6ec81d445864a8f2ced8fe2b, type: 3}
+--- !u!1 &1478654161 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 688451917239216030, guid: 0497f90e6ec81d445864a8f2ced8fe2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 529180205}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1478654162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478654161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3baa79b371cf854fbda16f0a5306cb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementVector: {x: 0, y: 10, z: 0}
+  movementFraction: 0
 --- !u!1001 &1498536583
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
-    // TODO FIX LGT BUG
 
     /// <summary>
     /// 
@@ -18,7 +17,11 @@ public class Rocket : MonoBehaviour
     private Rigidbody rocketRB;
     private AudioSource rocketAS;
     [SerializeField]
-    private const float maxThrust = 50f;
+    private AudioClip death, finish, engine;
+    [SerializeField]
+    private ParticleSystem deathParticle, finishParticle, engineParticle;
+    private float transitionTime;
+
     
     enum State { Alive, Dead, Transcending };
     [SerializeField]
@@ -29,6 +32,11 @@ public class Rocket : MonoBehaviour
     {
         rocketRB = GetComponent<Rigidbody>();
         rocketAS = GetComponent<AudioSource>();
+        rocketAS.clip = engine;
+        rocketAS.loop = true;
+        float finishLength = finish.length;
+        float deathLength = death.length;
+        transitionTime = deathLength > finishLength ? deathLength : finishLength;
     }
 
     // Update is called once per frame
@@ -59,7 +67,6 @@ public class Rocket : MonoBehaviour
             transform.Rotate(-Vector3.forward * rotMultiplier);
         }
 
-        //rocketRB.freezeRotation = false; // Rotation control back to Phyics [OLD]
         rocketRB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionZ;
     }
 
@@ -71,26 +78,40 @@ public class Rocket : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {
-            if (!rocketAS.isPlaying)
-                rocketAS.Play();
-   
-            rocketRB.AddRelativeForce(Vector3.up * thrust);
+            ApplyThrust();
 
-            // CAN USE LATER IF GOING WITH SCALING THRUST
-            //if (thrust < maxThrust)
-            //    thrust = thrust + 2f;
-            //rocketRB.AddRelativeForce(new Vector3(0f, thrust, 0f));
+            
 
         }
         else
         {
-            if (rocketAS.isPlaying)
-                rocketAS.Stop();
-
-            // CAN USE LATER IF GOING WITH SCALING THRUST
-            //if (thrust != 0f)
-            //    thrust = 0f;
+            StopThrust();
         }
+    }
+
+    private void StopThrust()
+    {
+        if (rocketAS.isPlaying)
+            rocketAS.Stop();
+        if (engineParticle.isPlaying)
+            engineParticle.Stop();
+
+        // CAN USE LATER IF GOING WITH SCALING THRUST
+        //if (thrust != 0f)
+        //    thrust = 0f;
+    }
+
+    private void ApplyThrust()
+    {
+        if (!rocketAS.isPlaying)
+            rocketAS.Play();
+
+        rocketRB.AddRelativeForce(Vector3.up * thrust);
+        engineParticle.Play();
+        // CAN USE LATER IF GOING WITH SCALING THRUST
+        //if (thrust < maxThrust)
+        //    thrust = thrust + 2f;
+        //rocketRB.AddRelativeForce(new Vector3(0f, thrust, 0f));
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -103,23 +124,36 @@ public class Rocket : MonoBehaviour
             case "Safe":
                 break;
             case "Finish":
-                state = State.Transcending;
-                Invoke("LoadNextScene", 1f);  // parameterise time
+                LevelComplete();
                 break;
             case "Fatal":
-                state = State.Dead;
-                rocketAS.Stop();
-                Invoke("LoadFirstScene", 1f);
+                PlayerDied();
                 break;
             case "Fuel":
                 print("Refueled!");
                 break;
             default:
-                //print("Collided with Other");
                 break;
         }
     }
 
+    private void PlayerDied()
+    {
+        state = State.Dead;
+        StopThrust();
+        rocketAS.PlayOneShot(death);
+        deathParticle.Play();
+        Invoke("LoadFirstScene", transitionTime);
+    }
+
+    private void LevelComplete()
+    {
+        state = State.Transcending;
+        StopThrust();
+        rocketAS.PlayOneShot(finish);
+        finishParticle.Play();
+        Invoke("LoadNextScene", transitionTime);
+    }
 
     private void LoadNextScene()
     {
