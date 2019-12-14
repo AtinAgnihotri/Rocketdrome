@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Safe
   - Fatal
+  - Fuel
   layers:
   - Default
   - TransparentFX
