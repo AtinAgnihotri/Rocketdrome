@@ -106,7 +106,7 @@ public class Rocket : MonoBehaviour
         if (!rocketAS.isPlaying)
             rocketAS.Play();
 
-        rocketRB.AddRelativeForce(Vector3.up * thrust);
+        rocketRB.AddRelativeForce(Vector3.up * thrust * Time.deltaTime);
         engineParticle.Play();
         // CAN USE LATER IF GOING WITH SCALING THRUST
         //if (thrust < maxThrust)

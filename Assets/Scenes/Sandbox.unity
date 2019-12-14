@@ -141,7 +141,7 @@ PrefabInstance:
     - target: {fileID: 2488690945863246784, guid: db476a28f0c580e4ebbd0db7f8ffb6e9,
         type: 3}
       propertyPath: m_TagString
-      value: Safe
+      value: Finish
       objectReference: {fileID: 0}
     - target: {fileID: 2488690945863246812, guid: db476a28f0c580e4ebbd0db7f8ffb6e9,
         type: 3}
@@ -957,7 +957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1124068488, guid: d967b9b7eab297042931288f4345e7d8, type: 3}
       propertyPath: thrust
-      value: 30
+      value: 1250
       objectReference: {fileID: 0}
     - target: {fileID: 1124068488, guid: d967b9b7eab297042931288f4345e7d8, type: 3}
       propertyPath: rotThrust
